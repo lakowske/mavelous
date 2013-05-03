@@ -24,9 +24,9 @@ goog.inherits(Mavelous.FakeVehicle, Backbone.Model);
  */
 Mavelous.FakeVehicle.prototype.defaults = function() {
   return {
-    'lat': 37.7751,
-    'lon': -122.4190,
-    'alt': 30,
+    'lat': 43.12900,
+    'lon': -89.25300,
+    'alt': 330,
     'heading': 90,
     'pitch': 0,
     'roll': 0,
