@@ -1,0 +1,3 @@
+[submodule "modules/lib/mavelous_web/third_party/mjpegcanvasjs"]
+	path = modules/lib/mavelous_web/third_party/mjpegcanvasjs
+	url = https://github.com/WPI-RAIL/mjpegcanvasjs.git
