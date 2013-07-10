@@ -4,7 +4,7 @@ import os
 import sys
 import threading
 
-import mavlinkv10
+import pymavlink.dialects.v10.common as mavlink
 
 # FIXME: Please.
 sys.path.insert(0, os.path.join(
@@ -173,7 +173,7 @@ class ModuleState(object):
         # unsigned. See https://github.com/mavlink/mavlink/issues/72
         return 65535
 
-    msg = mavlinkv10.MAVLink_rc_channels_override_message(
+    msg = mavlink.MAVLink_rc_channels_override_message(
       self.module_context.status.target_system,
       self.module_context.status.target_component,
       validate(msg, 'ch1'),
@@ -188,10 +188,10 @@ class ModuleState(object):
 
   def command_long(self, m):
     if m['command'] == 'NAV_LOITER_UNLIM':
-      msg = mavlinkv10.MAVLink_command_long_message(
+      msg = mavlink.MAVLink_command_long_message(
         self.module_context.status.target_system,  # target_system
         self.module_context.status.target_component,  # target_component
-        mavlinkv10.MAV_CMD_NAV_LOITER_UNLIM,  # command
+        mavlink.MAV_CMD_NAV_LOITER_UNLIM,  # command
         0,  # confirmation
         0,  # param1
         0,  # param2
@@ -202,10 +202,10 @@ class ModuleState(object):
         0)  # param7
       self.module_context.queue_message(msg)
     elif m['command'] == 'NAV_RETURN_TO_LAUNCH':
-      msg = mavlinkv10.MAVLink_command_long_message(
+      msg = mavlink.MAVLink_command_long_message(
         self.module_context.status.target_system,  # target_system
         self.module_context.status.target_component,  # target_component
-        mavlinkv10.MAV_CMD_NAV_RETURN_TO_LAUNCH,  # command
+        mavlink.MAV_CMD_NAV_RETURN_TO_LAUNCH,  # command
         0,  # confirmation
         0,  # param1
         0,  # param2
@@ -216,10 +216,10 @@ class ModuleState(object):
         0)  # param7
       self.module_context.queue_message(msg)
     elif m['command'] == 'NAV_LAND':
-      msg = mavlinkv10.MAVLink_command_long_message(
+      msg = mavlink.MAVLink_command_long_message(
         self.module_context.status.target_system,    # target_system
         self.module_context.status.target_component,  # target_component
-        mavlinkv10.MAV_CMD_NAV_LAND,  # command
+        mavlink.MAV_CMD_NAV_LAND,  # command
         0,  # confirmation
         0,  # param1
         0,  # param2
@@ -236,7 +236,7 @@ class ModuleState(object):
       if m['component'] == 'default':
         component = self.module_context.status.target_component
       elif m['component'] == 'SYSTEM_CONTROL':
-        component = mavlinkv10.MAV_COMP_ID_SYSTEM_CONTROL
+        component = mavlink.MAV_COMP_ID_SYSTEM_CONTROL
       elif type(m['component']) == int:
         component = m['component']
       else:
@@ -251,10 +251,10 @@ class ModuleState(object):
       else:
         return
       # finally form a message
-      msg = mavlinkv10.MAVLink_command_long_message(
+      msg = mavlink.MAVLink_command_long_message(
         self.module_context.status.target_system,  # target_system
         component,  # target_component
-        mavlinkv10.MAV_CMD_COMPONENT_ARM_DISARM,  # command
+        mavlink.MAV_CMD_COMPONENT_ARM_DISARM,  # command
         0,  # confirmation
         param1,  # param1
         0,  # param2
@@ -267,14 +267,14 @@ class ModuleState(object):
       self.module_context.queue_message(msg)
 
   def get_wp_count(self):
-    msg = mavlinkv10.MAVLink_mission_request_list_message(
+    msg = mavlink.MAVLink_mission_request_list_message(
       self.module_context.status.target_system,
       self.module_context.status.target_component)
     self.module_context.queue_message(msg)
 
   def get_wp(self, index):
     logger.info('get_wp')
-    msg = mavlinkv10.MAVLink_mission_request_message(
+    msg = mavlink.MAVLink_mission_request_message(
       self.module_context.status.target_system,
       self.module_context.status.target_component,
       index)
@@ -285,8 +285,8 @@ class ModuleState(object):
     # First draft, assumes the command has a location and we want to
     # fly to the location right now.
     seq = 0
-    frame = mavlinkv10.MAV_FRAME_GLOBAL_RELATIVE_ALT
-    cmd = mavlinkv10.MAV_CMD_NAV_WAYPOINT
+    frame = mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT
+    cmd = mavlink.MAV_CMD_NAV_WAYPOINT
     param1 = 0  # Hold time in seconds.
     param2 = 5  # Acceptance radius in meters.
     param3 = 0  # Pass through the WP.
@@ -301,7 +301,7 @@ class ModuleState(object):
     # waypoint and not for the mission.
     current = 2
     autocontinue = 0
-    msg = mavlinkv10.MAVLink_mission_item_message(
+    msg = mavlink.MAVLink_mission_item_message(
       self.module_context.status.target_system,
       self.module_context.status.target_component,
       seq, frame, cmd, current, autocontinue, param1, param2, param3, param4,
