@@ -14,6 +14,7 @@
   </style>
 <link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" href="third_party/leaflet/leaflet.css" />
+<link rel="stylesheet" type="text/css" href="third_party/RedUI/redui.css"/>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <!-- JQUERY -->
 <script type="text/javascript" src="third_party/jquery-1.7.2.js"></script>
@@ -50,9 +51,14 @@
 <script src="script/mavelous-deps.js"></script>
 <script src="script/app.js"></script>
 
-<!-- REDHAWK -->
 
-<script src="script/video.js"></script>
+<!-- REDHAWK -->
+    <script src="third_party/RedUI/src/timer.js"></script>
+    <script src="third_party/RedUI/src/request.js"></script>
+<script src="third_party/RedUI/src/backbone-callback.js"></script>
+<script src="third_party/RedUI/src/valid-uri.js"></script>
+<script src="third_party/RedUI/src/video.js"></script>
+
 
 <script>
 
@@ -152,7 +158,8 @@
   </div>
   <div id="video"></div>
 	<script>
-		document.load = RedUI.video.loadVideo();
+        var redVideo = new RedUI.video.RedVideo();
+		document.load = redVideo.loadVideo();
 	</script>
 </body>
 </html>
